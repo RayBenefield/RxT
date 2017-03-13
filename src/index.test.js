@@ -1,5 +1,8 @@
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 import it from '.';
 
 it('should fail on hello', test => test
-    .given(['hello', 'world'])
+    .givenEach(['hello', 'world'])
+    .when(Observable.of('testing'))
 );

@@ -1,7 +1,9 @@
 import isArray from 'lodash/isArray';
-import { Observable } from 'rxjs';
+import isFunction from 'lodash/isFunction';
+import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { from } from 'rxjs/observable/from';
+import 'rxjs/add/operator/mergeMap';
 
 class TestObservable extends Observable {
     constructor(source) {
@@ -20,6 +22,10 @@ class TestObservable extends Observable {
     static givenEach(params) {
         if (isArray(params)) return new this(from(params));
         return new this(of(params));
+    }
+    when(doSomething) {
+        if (isFunction(doSomething)) return this.mergeMap(doSomething);
+        return this.mergeMap(() => doSomething);
     }
 }
 
