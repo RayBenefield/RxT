@@ -54,7 +54,8 @@
         "gulp-shell": "^0.5.2",
         "jest": "^17.0.3",
         "js-beautify": "^1.6.4",
-        "rimraf": "^2.5.4"
+        "rimraf": "^2.5.4",
+        "should": "^11.2.1"
     },
     "babel": {
         "presets": [

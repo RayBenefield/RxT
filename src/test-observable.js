@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { from } from 'rxjs/observable/from';
 import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/do';
 
 class TestObservable extends Observable {
     constructor(source) {
@@ -26,6 +27,9 @@ class TestObservable extends Observable {
     when(doSomething) {
         if (isFunction(doSomething)) return this.mergeMap(doSomething);
         return this.mergeMap(() => doSomething);
+    }
+    then(check) {
+        return this.do(check);
     }
 }
 
