@@ -8,7 +8,9 @@ import it from '.';
 const capitalized = result => Observable.of(capitalize(result));
 
 it('should capitalize {{given}}', test => test
-    .givenEach(['hello', 'world'])
+    .givenEach(
+        ['hello', 'world']
+    )
     .when(capitalized)
     .thenEach(
         (result, expected) => {
