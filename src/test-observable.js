@@ -3,6 +3,7 @@ import isFunction from 'lodash/isFunction';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { from } from 'rxjs/observable/from';
+import { zip } from 'rxjs/observable/zip';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/do';
 
@@ -30,6 +31,16 @@ class TestObservable extends Observable {
     }
     then(check) {
         return this.do(check);
+    }
+    thenEach(check, expecteds) {
+        return new TestObservable(zip(
+            this,
+            TestObservable.givenEach(expecteds),
+            (result, expected) => {
+                check(result, expected);
+                return result;
+            },
+        ));
     }
 }
 

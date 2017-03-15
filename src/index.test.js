@@ -10,7 +10,11 @@ const capitalized = result => Observable.of(capitalize(result));
 it('should capitalize {{given}}', test => test
     .givenEach(['hello', 'world'])
     .when(capitalized)
-    .then(result =>
-        result.length.should.be.exactly(5)
+    .thenEach(
+        (result, expected) => {
+            result.length.should.be.exactly(5);
+            result.should.be.exactly(expected);
+        },
+        ['Hello', 'World']
     )
 );
