@@ -6,7 +6,10 @@ export default (description, testCreator) => {
     const observe = testCreator(TestObservable);
     _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
     observe
-        .map(({ given }) => _.template(description)({ given }))
+        .map(ex => _.extend(
+            ex,
+            { description: _.template(description)(ex) }
+        ))
         .subscribe(console.log);
 };
 
