@@ -15,20 +15,20 @@ class ExampleObservable extends Observable {
         observable.operator = operator;
         return observable;
     }
-    static given(params) {
+    static given(params, description) {
         return (new this(of(params)))
             .map(given => ({ given }))
-            .extend(ex => ({ description: _.template(ExampleObservable.description)(ex) }));
+            .extend(ex => ({ description: _.template(description)(ex) }));
     }
-    static givenEach(params) {
+    static givenEach(params, description) {
         if (_.isArray(params)) {
             return (new this(from(params)))
                 .map(given => ({ given }))
-                .extend(ex => ({ description: _.template(ExampleObservable.description)(ex) }));
+                .extend(ex => ({ description: _.template(description)(ex) }));
         }
         return (new this(of(params)))
             .map(given => ({ given }))
-            .extend(ex => ({ description: _.template(ExampleObservable.description)(ex) }));
+            .extend(ex => ({ description: _.template(description)(ex) }));
     }
     when(doSomething) {
         return this.extend(ex => ({ actual: doSomething(ex.given) }));
@@ -69,7 +69,7 @@ class ExampleObservable extends Observable {
     }
 }
 
-export default module.exports = (description) => {
-    ExampleObservable.description = description;
-    return ExampleObservable;
-};
+export default module.exports = description => ({
+    given: stuff => ExampleObservable.given(stuff, description),
+    givenEach: stuff => ExampleObservable.givenEach(stuff, description),
+});
