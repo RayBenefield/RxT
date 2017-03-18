@@ -26,7 +26,10 @@ class TestObservable extends Observable {
         return new this(of(params));
     }
     when(doSomething) {
-        return this.map(doSomething);
+        return this.map(given => ({
+            given,
+            result: doSomething(given),
+        }));
     }
     whenObserving(doSomething) {
         return this.mergeMap(doSomething);
