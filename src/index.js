@@ -24,7 +24,9 @@ export default (specDescription, specCreator) => {
         .scan((all, current) => [].concat(all, [current]), [])
         .subscribe((result) => {
             clivas.clear();
-            result.forEach(item => clivas.line(item.description));
+            result.forEach(item =>
+                clivas.line(`[${item.result}]    ${item.description}`)
+            );
         });
 };
 
