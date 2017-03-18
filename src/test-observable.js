@@ -33,7 +33,7 @@ class TestObservable extends Observable {
     }
     whenObserving(doSomething) {
         return this.mergeMap(given => doSomething(given)
-            .map(r => ({ result: r, given }))
+            .map(result => ({ given, result }))
         );
     }
     then(check) {
