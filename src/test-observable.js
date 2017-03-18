@@ -28,24 +28,24 @@ class TestObservable extends Observable {
     when(doSomething) {
         return this.map(given => ({
             given,
-            result: doSomething(given),
+            actual: doSomething(given),
         }));
     }
     whenObserving(doSomething) {
         return this.mergeMap(given => doSomething(given)
-            .map(result => ({ given, result }))
+            .map(actual => ({ given, actual }))
         );
     }
     then(check) {
-        return this.do(({ result }) => check(result));
+        return this.do(({ actual }) => check(actual));
     }
     thenEach(check, expecteds) {
         return new TestObservable(zip(
             this,
             TestObservable.givenEach(expecteds),
-            (result, expected) => {
-                check(result.result, expected);
-                return result;
+            (actual, expected) => {
+                check(actual.actual, expected);
+                return actual;
             },
         ));
     }

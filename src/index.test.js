@@ -5,37 +5,37 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import it from '.';
 
-const observableCapitalized = result => Observable.of(capitalized(result));
+const observableCapitalized = given => Observable.of(capitalized(given));
 
-it('should capitalize just hello', test => test
+it('should capitalize just hello', ex => ex
     .given('hello')
     .when(capitalized)
-    .then(result => result.should.be.exactly('Hello'))
+    .then(actual => actual.should.be.exactly('Hello'))
 );
 
-it('should capitalize {{given}}', test => test
+it('should capitalize {{given}}', ex => ex
     .givenEach(
         ['hello', 'world']
     )
     .when(capitalized)
     .thenEach(
-        (result, expected) => {
-            result.length.should.be.exactly(5);
-            result.should.be.exactly(expected);
+        (actual, expected) => {
+            actual.length.should.be.exactly(5);
+            actual.should.be.exactly(expected);
         },
         ['Hello', 'World']
     )
 );
 
-it('should capitalize {{given}} with an observable', test => test
+it('should capitalize {{given}} with an observable', ex => ex
     .givenEach(
         ['hello', 'world']
     )
     .whenObserving(observableCapitalized)
     .thenEach(
-        (result, expected) => {
-            result.length.should.be.exactly(5);
-            result.should.be.exactly(expected);
+        (actual, expected) => {
+            actual.length.should.be.exactly(5);
+            actual.should.be.exactly(expected);
         },
         ['Hello', 'World']
     )
