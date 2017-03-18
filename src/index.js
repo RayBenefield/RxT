@@ -9,7 +9,12 @@ export default (description, specification) => {
     Observable.of(0)
         .mergeMap(() => example
             .extend({ result: 'pass' })
-            .catch(err => Observable.of(err))
+            .catch((err) => {
+                if (err.name !== 'AssertionError') return Observable.of(err);
+                return Observable.of(
+                    _.extend(err.example, { result: 'fail' }),
+                );
+            })
         )
         .subscribe(ex => console.log(ex));
 };
