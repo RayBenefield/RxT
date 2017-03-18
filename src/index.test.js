@@ -21,7 +21,7 @@ it('should capitalize {{given}}', test => test
     )
 );
 
-it('should capitalize {{given}}', test => test
+it('should capitalize {{given}} with an observable', test => test
     .givenEach(
         ['hello', 'world']
     )
