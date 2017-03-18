@@ -7,13 +7,13 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/do';
 
-class TestObservable extends Observable {
+class ExampleObservable extends Observable {
     constructor(source) {
         super();
         this.source = source;
     }
     lift(operator) {
-        const observable = new TestObservable();
+        const observable = new ExampleObservable();
         observable.source = this;
         observable.operator = operator;
         return observable;
@@ -21,17 +21,17 @@ class TestObservable extends Observable {
     static given(params) {
         return (new this(of(params)))
             .map(given => ({ given }))
-            .extend(ex => ({ description: _.template(TestObservable.description)(ex) }));
+            .extend(ex => ({ description: _.template(ExampleObservable.description)(ex) }));
     }
     static givenEach(params) {
         if (_.isArray(params)) {
             return (new this(from(params)))
                 .map(given => ({ given }))
-                .extend(ex => ({ description: _.template(TestObservable.description)(ex) }));
+                .extend(ex => ({ description: _.template(ExampleObservable.description)(ex) }));
         }
         return (new this(of(params)))
             .map(given => ({ given }))
-            .extend(ex => ({ description: _.template(TestObservable.description)(ex) }));
+            .extend(ex => ({ description: _.template(ExampleObservable.description)(ex) }));
     }
     when(doSomething) {
         return this.extend(ex => ({ actual: doSomething(ex.given) }));
@@ -45,9 +45,9 @@ class TestObservable extends Observable {
         return this.do(({ actual }) => check(actual));
     }
     thenEach(check, expecteds) {
-        return new TestObservable(zip(
+        return new ExampleObservable(zip(
             this,
-            TestObservable.givenEach(expecteds),
+            ExampleObservable.givenEach(expecteds),
             (actual, expected) => {
                 check(actual.actual, expected.given);
                 return actual;
@@ -60,6 +60,6 @@ class TestObservable extends Observable {
 }
 
 export default module.exports = (description) => {
-    TestObservable.description = description;
-    return TestObservable;
+    ExampleObservable.description = description;
+    return ExampleObservable;
 };

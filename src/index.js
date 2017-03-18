@@ -1,11 +1,10 @@
 /* eslint-disable no-console */
 import _ from 'lodash';
-import createExample from './test-observable';
+import createExample from './example-observable';
 
-export default (description, testCreator) => {
-    const observe = testCreator(createExample(description));
-    _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
-    observe
-        .subscribe(ex => console.log(ex.description));
+_.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
+export default (description, specification) => {
+    const example = specification(createExample(description));
+    example.subscribe(ex => console.log(ex.description));
 };
 
