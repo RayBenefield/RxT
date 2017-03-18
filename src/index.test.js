@@ -40,3 +40,17 @@ it('should capitalize {{given}} with an observable', ex => ex
         ['Hello', 'World']
     )
 );
+
+it('should fail {{given}} with an observable', ex => ex
+    .givenEach(
+        ['hello', 'world']
+    )
+    .whenObserving(observableCapitalized)
+    .thenEach(
+        (actual, expected) => {
+            actual.length.should.be.exactly(5);
+            actual.should.be.exactly(expected);
+        },
+        ['hello', 'world']
+    )
+);

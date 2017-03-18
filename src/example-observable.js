@@ -1,11 +1,8 @@
 import _ from 'lodash';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { of } from 'rxjs/observable/of';
 import { from } from 'rxjs/observable/from';
 import { zip } from 'rxjs/observable/zip';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/do';
 
 class ExampleObservable extends Observable {
     constructor(source) {
@@ -42,15 +39,27 @@ class ExampleObservable extends Observable {
         );
     }
     then(check) {
-        return this.do(({ actual }) => check(actual));
+        return this.do((example) => {
+            try {
+                return check(example.actual);
+            } catch (e) {
+                _.extend(e, { example });
+                throw (e);
+            }
+        });
     }
     thenEach(check, expecteds) {
         return new ExampleObservable(zip(
             this,
             ExampleObservable.givenEach(expecteds),
-            (actual, expected) => {
-                check(actual.actual, expected.given);
-                return actual;
+            (example, expected) => {
+                try {
+                    check(example.actual, expected.given);
+                } catch (e) {
+                    _.extend(e, { example });
+                    throw (e);
+                }
+                return example;
             },
         ));
     }
