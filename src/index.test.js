@@ -32,11 +32,11 @@ it('should capitalize {{given}} with an observable', test => test
         ['hello', 'world']
     )
     .whenObserving(observableCapitalized)
-    //.thenEach(
-        //(result, expected) => {
-            //result.length.should.be.exactly(5);
-            //result.should.be.exactly(expected);
-        //},
-        //['Hello', 'World']
-    //)
+    .thenEach(
+        (result, expected) => {
+            result.length.should.be.exactly(5);
+            result.should.be.exactly(expected);
+        },
+        ['Hello', 'World']
+    )
 );

@@ -32,10 +32,9 @@ class TestObservable extends Observable {
         }));
     }
     whenObserving(doSomething) {
-        return this.mergeMap(given => Observable.of({
-            given,
-            result: doSomething(given),
-        }));
+        return this.mergeMap(given => doSomething(given)
+            .map(r => ({ result: r, given }))
+        );
     }
     then(check) {
         return this.do(({ result }) => check(result));
