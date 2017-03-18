@@ -19,21 +19,26 @@ class TestObservable extends Observable {
         return observable;
     }
     static given(params) {
-        return new this(of(params));
+        return (new this(of(params)))
+            .map(given => ({ given }))
+            .extend(ex => ({ description: _.template(TestObservable.description)(ex) }));
     }
     static givenEach(params) {
-        if (_.isArray(params)) return new this(from(params));
-        return new this(of(params));
+        if (_.isArray(params)) {
+            return (new this(from(params)))
+                .map(given => ({ given }))
+                .extend(ex => ({ description: _.template(TestObservable.description)(ex) }));
+        }
+        return (new this(of(params)))
+            .map(given => ({ given }))
+            .extend(ex => ({ description: _.template(TestObservable.description)(ex) }));
     }
     when(doSomething) {
-        return this.map(given => ({
-            given,
-            actual: doSomething(given),
-        }));
+        return this.extend(ex => ({ actual: doSomething(ex.given) }));
     }
     whenObserving(doSomething) {
-        return this.mergeMap(given => doSomething(given)
-            .map(actual => ({ given, actual }))
+        return this.mergeMap(ex => doSomething(ex.given)
+            .map(actual => _.extend(ex, { actual }))
         );
     }
     then(check) {
@@ -44,7 +49,7 @@ class TestObservable extends Observable {
             this,
             TestObservable.givenEach(expecteds),
             (actual, expected) => {
-                check(actual.actual, expected);
+                check(actual.actual, expected.given);
                 return actual;
             },
         ));
@@ -54,4 +59,7 @@ class TestObservable extends Observable {
     }
 }
 
-export default module.exports = TestObservable;
+export default module.exports = (description) => {
+    TestObservable.description = description;
+    return TestObservable;
+};
