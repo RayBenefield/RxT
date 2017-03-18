@@ -38,7 +38,7 @@ class TestObservable extends Observable {
         }));
     }
     then(check) {
-        return this.do(check);
+        return this.do(({ result }) => check(result));
     }
     thenEach(check, expecteds) {
         return new TestObservable(zip(
