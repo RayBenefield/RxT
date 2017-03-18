@@ -55,7 +55,8 @@ class ExampleObservable extends Observable {
         ));
     }
     extend(extension) {
-        return this.map(ex => _.extend(ex, extension(ex)));
+        if (_.isFunction(extension)) return this.map(ex => _.extend(ex, extension(ex)));
+        return this.map(ex => _.extend(ex, extension));
     }
 }
 
