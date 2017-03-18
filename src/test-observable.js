@@ -1,4 +1,4 @@
-import isArray from 'lodash/isArray';
+import _ from 'lodash';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { from } from 'rxjs/observable/from';
@@ -22,7 +22,7 @@ class TestObservable extends Observable {
         return new this(of(params));
     }
     static givenEach(params) {
-        if (isArray(params)) return new this(from(params));
+        if (_.isArray(params)) return new this(from(params));
         return new this(of(params));
     }
     when(doSomething) {
@@ -48,6 +48,9 @@ class TestObservable extends Observable {
                 return actual;
             },
         ));
+    }
+    extend(extension) {
+        return this.map(ex => _.extend(ex, extension(ex)));
     }
 }
 
