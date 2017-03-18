@@ -45,7 +45,7 @@ class TestObservable extends Observable {
             this,
             TestObservable.givenEach(expecteds),
             (result, expected) => {
-                check(result, expected);
+                check(result.result, expected);
                 return result;
             },
         ));
