@@ -21,11 +21,11 @@ it('should capitalize {{given}}', test => test
     //)
 );
 
-//it('should capitalize {{given}} with an observable', test => test
-    //.givenEach(
-        //['hello', 'world']
-    //)
-    //.whenObserving(observableCapitalized)
+it('should capitalize {{given}} with an observable', test => test
+    .givenEach(
+        ['hello', 'world']
+    )
+    .whenObserving(observableCapitalized)
     //.thenEach(
         //(result, expected) => {
             //result.length.should.be.exactly(5);
@@ -33,4 +33,4 @@ it('should capitalize {{given}}', test => test
         //},
         //['Hello', 'World']
     //)
-//);
+);
