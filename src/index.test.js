@@ -12,7 +12,7 @@ describe('Testing', (it) => {
     it('should capitalize just hello', ex => ex
         .given('hello')
         .when(capitalized)
-        .then(actual => actual.should.be.exactly('Hello'))
+        .then(result => result.should.be.exactly('Hello'))
     );
 
     it('should capitalize {{given}}', ex => ex
@@ -21,9 +21,9 @@ describe('Testing', (it) => {
         )
         .when(capitalized)
         .thenEach(
-            (actual, expected) => {
-                actual.length.should.be.exactly(5);
-                actual.should.be.exactly(expected);
+            (result, expected) => {
+                result.length.should.be.exactly(5);
+                result.should.be.exactly(expected);
             },
             ['Hello', 'World']
         )
@@ -35,9 +35,9 @@ describe('Testing', (it) => {
         )
         .whenObserving(observableCapitalized)
         .thenEach(
-            (actual, expected) => {
-                actual.length.should.be.exactly(5);
-                actual.should.be.exactly(expected);
+            (result, expected) => {
+                result.length.should.be.exactly(5);
+                result.should.be.exactly(expected);
             },
             ['Hello', 'World']
         )
@@ -49,9 +49,9 @@ describe('Testing', (it) => {
         )
         .whenObserving(observableCapitalized)
         .thenEach(
-            (actual, expected) => {
-                actual.length.should.be.exactly(5);
-                actual.should.be.exactly(expected);
+            (result, expected) => {
+                result.length.should.be.exactly(5);
+                result.should.be.exactly(expected);
             },
             ['hello', 'world']
         )
