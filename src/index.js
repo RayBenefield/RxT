@@ -33,6 +33,9 @@ export default (specDescription, specCreator) => {
                 const status = statusColor(` ${item.result.toUpperCase()} `);
                 const description = chalk.gray.bold(item.description);
                 clivas.line(` ${status}  ${description}`);
+                if (item.result === 'fail') {
+                    clivas.line(` ${chalk.bgRed.white(`         - ${item.error}`)}`);
+                }
             });
             clivas.line('--------');
         });

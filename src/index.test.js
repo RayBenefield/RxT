@@ -5,7 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import describe from '.';
 
-const observableCapitalized = given => Observable.of(capitalized(given)).delay(1000);
+const observableCapitalized = given => Observable.of(capitalized(given))
+    .delay(5000 * Math.random());
 
 describe('Testing', (it) => {
     it('should capitalize just hello', ex => ex
