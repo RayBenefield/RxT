@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import _ from 'lodash';
+import chalk from 'chalk';
 import clivas from 'clivas';
 import { Observable } from 'rxjs';
 import createExample from './example-observable';
@@ -24,9 +25,16 @@ export default (specDescription, specCreator) => {
         .scan((all, current) => [].concat(all, [current]), [])
         .subscribe((result) => {
             clivas.clear();
-            result.forEach(item =>
-                clivas.line(`[${item.result}]    ${item.description}`)
-            );
+            clivas.line('--------');
+            clivas.line(specDescription);
+            clivas.line('--------');
+            result.forEach((item) => {
+                const statusColor = item.result === 'pass' ? chalk.green.bold.inverse : chalk.red.bold.inverse;
+                const status = statusColor(` ${item.result.toUpperCase()} `);
+                const description = chalk.gray.bold(item.description);
+                clivas.line(` ${status}  ${description}`);
+            });
+            clivas.line('--------');
         });
 };
 
