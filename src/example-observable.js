@@ -74,14 +74,14 @@ class ExampleObservable extends Observable {
 
     attachId() {
         return this.pairwise()
-            .mergeMap((pair) => {
-                if (!pair[0].id) {
+            .mergeMap(([previous, current]) => {
+                if (!previous.id) {
                     return [
-                        _.extend(pair[0], { id: 0 }),
-                        _.extend(pair[1], { id: 1 }),
+                        _.extend(previous, { id: 0 }),
+                        _.extend(current, { id: 1 }),
                     ];
                 }
-                return [_.extend(pair[1], { id: pair[0].id + 1 })];
+                return [_.extend(current, { id: previous.id + 1 })];
             });
     }
 }
