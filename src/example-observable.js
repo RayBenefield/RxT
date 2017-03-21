@@ -26,16 +26,7 @@ class ExampleObservable extends Observable {
         if (_.isArray(params)) {
             return (new this(from(params)))
                 .map(given => ({ given }))
-                .pairwise()
-                .mergeMap((pair) => {
-                    if (!pair[0].id) {
-                        return [
-                            _.extend(pair[0], { id: 0 }),
-                            _.extend(pair[1], { id: 1 }),
-                        ];
-                    }
-                    return [_.extend(pair[1], { id: pair[0].id + 1 })];
-                })
+                .attachId()
                 .extend(ex => ({ description: _.template(description)(ex) }));
         }
         return (new this(of(params)))
@@ -79,6 +70,19 @@ class ExampleObservable extends Observable {
     extend(extension) {
         if (_.isFunction(extension)) return this.map(ex => _.extend(ex, extension(ex)));
         return this.map(ex => _.extend(ex, extension));
+    }
+
+    attachId() {
+        return this.pairwise()
+            .mergeMap((pair) => {
+                if (!pair[0].id) {
+                    return [
+                        _.extend(pair[0], { id: 0 }),
+                        _.extend(pair[1], { id: 1 }),
+                    ];
+                }
+                return [_.extend(pair[1], { id: pair[0].id + 1 })];
+            });
     }
 }
 

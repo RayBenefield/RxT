@@ -31,7 +31,7 @@ describe('Testing', (it) => {
 
     it('should capitalize {{given}} with an observable', ex => ex
         .givenEach(
-            ['hello', 'world']
+            ['hello', 'world', 'again', 'stuff', 'style']
         )
         .whenObserving(observableCapitalized)
         .thenEach(
@@ -39,7 +39,7 @@ describe('Testing', (it) => {
                 result.length.should.be.exactly(5);
                 result.should.be.exactly(expected);
             },
-            ['Hello', 'World']
+            ['Hello', 'World', 'Again', 'Stuff', 'Style']
         )
     );
 
