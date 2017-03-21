@@ -17,7 +17,7 @@ describe('Testing', (it) => {
 
     it('should capitalize {{given}}', ex => ex
         .givenEach(
-            ['hello', 'world']
+            ['hello', 'world', 'again']
         )
         .when(capitalized)
         .thenEach(
@@ -25,7 +25,7 @@ describe('Testing', (it) => {
                 result.length.should.be.exactly(5);
                 result.should.be.exactly(expected);
             },
-            ['Hello', 'World']
+            ['Hello', 'World', 'Again']
         )
     );
 
