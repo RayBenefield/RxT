@@ -29,6 +29,20 @@ describe('Testing', (it) => {
         )
     );
 
+    it('should fail {{given}}', ex => ex
+        .givenEach(
+            ['hello', 'world']
+        )
+        .when(capitalized)
+        .thenEach(
+            (result, expected) => {
+                result.length.should.be.exactly(5);
+                result.should.be.exactly(expected);
+            },
+            ['hello', 'world']
+        )
+    );
+
     it('should capitalize {{given}} with an observable', ex => ex
         .givenEach(
             ['hello', 'world', 'again', 'stuff', 'style']

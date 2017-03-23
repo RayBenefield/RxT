@@ -52,19 +52,30 @@ class ExampleObservable extends Observable {
                 _.extend(e, { example });
                 throw (e);
             }
-        });
+        })
+        .map(ex => _.extend(ex, { result: 'pass' }));
     }
 
     thenEach(check, expecteds) {
-        return this.do((example) => {
-            try {
-                check(example.actual, expecteds[example.id]);
-            } catch (e) {
-                _.extend(e, { example });
-                throw (e);
-            }
-            return example;
-        });
+        return this.mergeMap(example => Observable
+            .of(example)
+            .do(() => {
+                try {
+                    check(example.actual, expecteds[example.id]);
+                } catch (e) {
+                    _.extend(e, { example });
+                    throw (e);
+                }
+                return example;
+            })
+            .map(ex => _.extend(ex, { result: 'pass' }))
+            .catch((error) => {
+                if (error.name !== 'AssertionError') return Observable.of(error);
+                return Observable.of(
+                    _.extend(error.example, { result: 'fail', error }),
+                );
+            })
+        );
     }
 
     extend(extension) {

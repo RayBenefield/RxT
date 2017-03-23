@@ -16,4 +16,3 @@ export default (specDescription, specCreator) => {
         .scan((all, current) => _.extend(all, { [current.description]: current }), {})
         .subscribe(formatter(specDescription));
 };
-
