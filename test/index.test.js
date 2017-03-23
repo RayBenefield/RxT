@@ -2,7 +2,6 @@
 import 'should';
 import capitalized from 'lodash/capitalize';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
 import describe from '../src';
 
 const observableCapitalized = given => Observable.of(capitalized(given))
