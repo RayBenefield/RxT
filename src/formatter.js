@@ -9,6 +9,7 @@ export default specDescription => (result) => {
     clivas.line('--------');
     _.forIn(result, (item) => {
         const statusColors = {
+            wait: chalk.cyan.bold.inverse,
             pass: chalk.green.bold.inverse,
             fail: chalk.red.bold.inverse,
         };

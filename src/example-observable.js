@@ -39,9 +39,13 @@ class ExampleObservable extends Observable {
     }
 
     whenObserving(doSomething) {
-        return this.mergeMap(ex => doSomething(ex.given)
-            .map(actual => _.extend(ex, { actual }))
-        );
+        return this.mergeMap(ex => Observable.merge(
+            Observable.of(ex)
+                .map(e => _.extend(e, { result: 'wait' })),
+            doSomething(ex.given)
+                .map(actual => _.extend(ex, { actual }))
+                .map(e => _.extend(e, { result: 'done' })),
+        ));
     }
 
     then(check) {
@@ -60,6 +64,7 @@ class ExampleObservable extends Observable {
         return this.mergeMap(example => Observable
             .of(example)
             .do(() => {
+                if (example.result === 'wait') return null;
                 try {
                     check(example.actual, expecteds[example.id]);
                 } catch (e) {
@@ -68,7 +73,10 @@ class ExampleObservable extends Observable {
                 }
                 return example;
             })
-            .map(ex => _.extend(ex, { result: 'pass' }))
+            .map((ex) => {
+                if (ex.result === 'wait') return ex;
+                return _.extend(ex, { result: 'pass' });
+            })
             .catch((error) => {
                 if (error.name !== 'AssertionError') return Observable.of(error);
                 return Observable.of(
