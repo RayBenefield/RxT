@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import chalk from 'chalk';
 import clivas from 'clivas';
 
@@ -6,9 +7,12 @@ export default specDescription => (result) => {
     clivas.line('--------');
     clivas.line(specDescription);
     clivas.line('--------');
-    result.forEach((item) => {
-        const statusColor = item.result === 'pass' ? chalk.green.bold.inverse : chalk.red.bold.inverse;
-        const status = statusColor(` ${item.result.toUpperCase()} `);
+    _.forIn(result, (item) => {
+        const statusColors = {
+            pass: chalk.green.bold.inverse,
+            fail: chalk.red.bold.inverse,
+        };
+        const status = statusColors[item.result](` ${item.result.toUpperCase()} `);
         const description = chalk.gray.bold(item.description);
         clivas.line(` ${status}  ${description}`);
         if (item.result === 'fail') {

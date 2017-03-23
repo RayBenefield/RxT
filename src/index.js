@@ -9,19 +9,11 @@ export default (specDescription, specCreator) => {
     const examples = [];
     specCreator((description, specification) => {
         const example = specification(createExample(description));
-        examples.push(example
-            .extend({ result: 'pass' })
-            .catch((error) => {
-                if (error.name !== 'AssertionError') return Observable.of(error);
-                return Observable.of(
-                    _.extend(error.example, { result: 'fail', error }),
-                );
-            })
-        );
+        examples.push(example);
     });
 
     Observable.merge(...examples)
-        .scan((all, current) => [].concat(all, [current]), [])
+        .scan((all, current) => _.extend(all, { [current.description]: current }), {})
         .subscribe(formatter(specDescription));
 };
 
