@@ -21,7 +21,7 @@
         "npm": ">=1.4.3"
     },
     "scripts": {
-        "dev": "nodemon src/index.test.js --exec babel-node",
+        "dev": "nodemon test/index.test.js --exec babel-node",
         "dev:tap": "babel-node src/index.test.js | tap-spec",
         "test": "jest --watch",
         "lint": "eslint -c .eslintrc.json src/",
