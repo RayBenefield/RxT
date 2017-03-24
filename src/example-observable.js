@@ -50,6 +50,7 @@ class ExampleObservable extends Observable {
 
     then(check) {
         return this.do((example) => {
+            if (example.result === 'wait') return null;
             try {
                 return check(example.actual);
             } catch (e) {
@@ -57,7 +58,16 @@ class ExampleObservable extends Observable {
                 throw (e);
             }
         })
-        .map(ex => _.extend(ex, { result: 'pass' }));
+        .map((ex) => {
+            if (ex.result === 'wait') return ex;
+            return _.extend(ex, { result: 'pass' });
+        })
+        .catch((error) => {
+            if (error.name !== 'AssertionError') return Observable.of(error);
+            return Observable.of(
+                _.extend(error.example, { result: 'fail', error }),
+            );
+        });
     }
 
     thenEach(check, expecteds) {

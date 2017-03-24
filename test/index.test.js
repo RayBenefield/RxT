@@ -42,6 +42,18 @@ describe('Testing', (it) => {
         )
     );
 
+    it('should capitalize a single {{given}} with an observable', ex => ex
+        .given('hello')
+        .whenObserving(observableCapitalized)
+        .then(result => result.should.be.exactly('Hello'))
+    );
+
+    it('should fail to capitalize a single {{given}} with an observable', ex => ex
+        .given('hello')
+        .whenObserving(observableCapitalized)
+        .then(result => result.should.be.exactly('hello'))
+    );
+
     it('should capitalize {{given}} with an observable', ex => ex
         .givenEach(
             ['hello', 'world', 'again', 'stuff', 'style']
