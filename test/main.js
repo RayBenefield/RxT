@@ -1,17 +1,19 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, no-duplicate-imports, import/no-duplicates */
 import proxyquire from 'proxyquire';
 import describe from '../src';
+import { specStream } from '../src';
 
 describe('RxT', (it) => {
     it('should run a simple given/when/then test', test => test
         .given('givenWhenThen')
-        .when(testFile =>
-            proxyquire(`./samples/${testFile}`, {
+        .whenObserving((testFile) => {
+            const spec = proxyquire(`./samples/${testFile}`, {
                 '../../src': {
-                    default: (...args) => console.log(...args),
+                    default: specStream,
                 },
-            })
-        )
-        .then(() => true)
+            });
+            return spec;
+        })
+        .then(result => result.should.have.keys('should capitalize just hello'))
     );
 });
