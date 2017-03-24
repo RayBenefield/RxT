@@ -14,6 +14,10 @@ describe('RxT', (it) => {
             });
             return spec;
         })
-        .then(result => result.should.have.keys('should capitalize just hello'))
+        .then((result) => {
+            result.should.have.keys('should capitalize just hello');
+            result['should capitalize just hello'].should.have.keys('result');
+            result['should capitalize just hello'].result.should.equal('pass');
+        })
     );
 });
