@@ -39,13 +39,14 @@ class ExampleObservable extends Observable {
     }
 
     whenObserving(doSomething) {
-        return this.mergeMap(ex => Observable.merge(
-            Observable.of(ex)
-                .map(e => _.extend(e, { result: 'wait' })),
-            doSomething(ex.given)
-                .map(actual => _.extend(ex, { actual }))
-                .map(e => _.extend(e, { result: 'done' })),
-        ));
+        return this.mergeMap(ex => Observable
+            .merge(
+                Observable.of(ex)
+                    .map(e => _.extend(e, { result: 'wait' })),
+                doSomething(ex.given)
+                    .map(actual => _.extend(ex, { actual }))
+                    .map(e => _.extend(e, { result: 'done' })),
+            ));
     }
 
     then(check) {
@@ -105,6 +106,9 @@ class ExampleObservable extends Observable {
         return this.pairwise()
             .mergeMap(([previous, current]) => {
                 if (!previous.id) {
+                    if (_.isEqual(previous, current)) {
+                        return [_.extend(previous, { id: 0 })];
+                    }
                     return [
                         _.extend(previous, { id: 0 }),
                         _.extend(current, { id: 1 }),
