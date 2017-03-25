@@ -3,6 +3,30 @@ import { Observable } from 'rxjs';
 import { of } from 'rxjs/observable/of';
 import { from } from 'rxjs/observable/from';
 
+const attachId = function attachId() {
+    return this.pairwise()
+        .mergeMap(([previous, current]) => {
+            if (!previous.id) {
+                if (_.isEqual(previous, current)) {
+                    return [_.extend(previous, { id: 0 })];
+                }
+                return [
+                    _.extend(previous, { id: 0 }),
+                    _.extend(current, { id: 1 }),
+                ];
+            }
+            return [_.extend(current, { id: previous.id + 1 })];
+        });
+};
+
+const extend = function extend(extension) {
+    if (_.isFunction(extension)) return this.map(ex => _.extend(ex, extension(ex)));
+    return this.map(ex => _.extend(ex, extension));
+};
+
+Observable.prototype.attachId = attachId;
+Observable.prototype.extend = extend;
+
 class ExampleObservable extends Observable {
     constructor(source) {
         super();
@@ -50,25 +74,26 @@ class ExampleObservable extends Observable {
     }
 
     then(check) {
-        return this.do((example) => {
-            if (example.result === 'wait') return null;
-            try {
-                return check(example.actual);
-            } catch (e) {
-                _.extend(e, { example });
-                throw (e);
-            }
-        })
-        .map((ex) => {
-            if (ex.result === 'wait') return ex;
-            return _.extend(ex, { result: 'pass' });
-        })
-        .catch((error) => {
-            if (error.name !== 'AssertionError') return Observable.of(error);
-            return Observable.of(
-                _.extend(error.example, { result: 'fail', error }),
-            );
-        });
+        return this
+            .do((example) => {
+                if (example.result === 'wait') return null;
+                try {
+                    return check(example.actual);
+                } catch (e) {
+                    _.extend(e, { example });
+                    throw (e);
+                }
+            })
+            .map((ex) => {
+                if (ex.result === 'wait') return ex;
+                return _.extend(ex, { result: 'pass' });
+            })
+            .catch((error) => {
+                if (error.name !== 'AssertionError') return Observable.of(error);
+                return Observable.of(
+                    _.extend(error.example, { result: 'fail', error }),
+                );
+            });
     }
 
     thenEach(check, expecteds) {
@@ -95,27 +120,6 @@ class ExampleObservable extends Observable {
                 );
             })
         );
-    }
-
-    extend(extension) {
-        if (_.isFunction(extension)) return this.map(ex => _.extend(ex, extension(ex)));
-        return this.map(ex => _.extend(ex, extension));
-    }
-
-    attachId() {
-        return this.pairwise()
-            .mergeMap(([previous, current]) => {
-                if (!previous.id) {
-                    if (_.isEqual(previous, current)) {
-                        return [_.extend(previous, { id: 0 })];
-                    }
-                    return [
-                        _.extend(previous, { id: 0 }),
-                        _.extend(current, { id: 1 }),
-                    ];
-                }
-                return [_.extend(current, { id: previous.id + 1 })];
-            });
     }
 }
 
