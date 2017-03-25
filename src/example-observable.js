@@ -44,7 +44,12 @@ class ExampleObservable extends Observable {
         // TODO: Should be able to handle functions
         return (new this(of(params)))
             .map(given => ({ given }))
-            .extend(ex => ({ description: _.template(description)(ex) }));
+            .extend(ex => ({ description: _.template(description)(ex) }))
+            .scan((prev, curr) => _
+                .extend(curr, {
+                    givenId: prev.givenId !== undefined ? prev.givenId + 1 : 0,
+                }), {}
+            );
     }
 
     static givenEach(params, description) {
@@ -52,8 +57,12 @@ class ExampleObservable extends Observable {
         if (_.isArray(params)) {
             return (new this(from(params)))
                 .map(given => ({ given }))
-                .attachId()
-                .extend(ex => ({ description: _.template(description)(ex) }));
+                .extend(ex => ({ description: _.template(description)(ex) }))
+                .scan((prev, curr) => _
+                    .extend(curr, {
+                        givenId: prev.givenId !== undefined ? prev.givenId + 1 : 0,
+                    }), {}
+                );
         }
         return (new this(of(params)))
             .map(given => ({ given }))
@@ -61,17 +70,28 @@ class ExampleObservable extends Observable {
     }
 
     when(doSomething) {
-        return this.extend(ex => ({ actual: doSomething(ex.given) }));
+        return this
+            .extend(ex => ({ actual: doSomething(ex.given) }))
+            .scan((prev, curr) => _
+                .extend(curr, {
+                    whenId: prev.whenId !== undefined ? prev.whenId + 1 : 0,
+                }), {}
+            );
     }
 
     whenObserving(doSomething) {
         return this.mergeMap(ex => Observable
             .merge(
                 Observable.of(ex)
-                    .map(e => _.extend(e, { result: 'wait' })),
+                .map(e => _.extend(e, { result: 'wait' })),
                 doSomething(ex.given)
-                    .map(actual => _.extend(ex, { actual }))
-                    .map(e => _.extend(e, { result: 'done' })),
+                .map(actual => _.extend(ex, { actual }))
+                .map(e => _.extend(e, { result: 'done' }))
+                .scan((prev, curr) => _
+                    .extend(curr, {
+                        whenId: prev.whenId !== undefined ? prev.whenId + 1 : 0,
+                    }), {}
+                ),
             ));
     }
 
@@ -104,7 +124,7 @@ class ExampleObservable extends Observable {
             .do(() => {
                 if (example.result === 'wait') return null;
                 try {
-                    check(example.actual, expecteds[example.id]);
+                    check(example.actual, expecteds[example.givenId]);
                 } catch (e) {
                     _.extend(e, { example });
                     throw (e);
