@@ -41,12 +41,14 @@ class ExampleObservable extends Observable {
     }
 
     static given(params, description) {
+        // TODO: Should be able to handle functions
         return (new this(of(params)))
             .map(given => ({ given }))
             .extend(ex => ({ description: _.template(description)(ex) }));
     }
 
     static givenEach(params, description) {
+        // TODO: Should be able to handle functions
         if (_.isArray(params)) {
             return (new this(from(params)))
                 .map(given => ({ given }))
