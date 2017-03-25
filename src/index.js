@@ -13,7 +13,15 @@ export const specStream = (specDescription, specCreator) => {
     });
 
     return Observable.merge(...examples)
-        .scan((all, current) => _.extend(all, { [current.description]: current }), {});
+        .scan((all, current) => {
+            const stepNumber = all.step ? all.step + 1 : 0;
+            return {
+                step: stepNumber,
+                results: _.extend(all.results, {
+                    [current.description]: current,
+                }),
+            };
+        }, {});
 };
 
 export default (specDescription, specCreator) => {
