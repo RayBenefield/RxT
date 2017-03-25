@@ -4,7 +4,7 @@ import describe from '../src';
 import { specStream } from '../src';
 
 describe('RxT', (it) => {
-    it('should run a simple given/when/then test', test => test
+    it('should run a simple passing and failing given/when/then test', test => test
         .given('givenWhenThen')
         .whenObserving((testFile) => {
             const spec = proxyquire(`./samples/${testFile}`, {
@@ -14,10 +14,17 @@ describe('RxT', (it) => {
             });
             return spec;
         })
-        .then((result) => {
-            result.should.have.keys('should capitalize just hello');
-            result['should capitalize just hello'].should.have.keys('result');
-            result['should capitalize just hello'].result.should.equal('pass');
-        })
+        .then(
+            (result) => {
+                const expected = [
+                    ['should capitalize just hello'],
+                    [
+                        'should capitalize just hello',
+                        'should fail to assert the proper hello',
+                    ],
+                ];
+                result.results.should.have.keys(...expected[result.step]);
+            },
+        )
     );
 });

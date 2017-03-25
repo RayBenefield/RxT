@@ -9,4 +9,9 @@ export default module.exports = describe('Lodash Capitalize', (it) => {
         .when(capitalized)
         .then(result => result.should.be.exactly('Hello'))
     );
+    it('should fail to assert the proper hello', ex => ex
+        .given('hello')
+        .when(capitalized)
+        .then(result => result.should.be.exactly('hello'))
+    );
 });
