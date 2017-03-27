@@ -10,16 +10,15 @@ describe('RxT', (it) => {
         .then(
             (result) => {
                 const expected = [
-                    {
-                        'should capitalize just hello': 'pass',
-                    },
-                    {
-                        'should capitalize just hello': 'pass',
-                        'should fail to assert the proper hello': 'fail',
-                    },
+                    { 'should capitalize just hello': 'pass' },
+                    { 'should fail to assert the proper hello': 'fail' },
                 ];
-                result.results.should.have.keys(..._.keys(expected[result.step]));
-                _.forIn(expected[result.step], (val, key) => {
+                const steps = expected.reduce((past, current) => {
+                    if (past.length === 0) return [current];
+                    return [].concat(past, [_.assign({}, past[past.length - 1], current)]);
+                }, []);
+                result.results.should.have.keys(..._.keys(steps[result.step]));
+                _.forIn(steps[result.step], (val, key) => {
                     result.results[key].result.should.equal(val);
                 });
             },
