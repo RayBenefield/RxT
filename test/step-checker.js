@@ -1,7 +1,8 @@
-/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import/no-extraneous-dependencies, no-duplicate-imports, import/no-duplicates */
 import 'should';
 import describe from '../src';
 import { accumulateSteps } from '../utils/step-checker';
+import checkSteps from '../utils/step-checker';
 
 describe('Step Checker', (it) => {
     it('should return a single step', ex => ex
@@ -96,5 +97,25 @@ describe('Step Checker', (it) => {
                 },
             ]);
         })
+    );
+
+    it('should pass a single step', ex => ex
+        .given([{ 'should do stuff': 'pass' }])
+        .when(checkSteps)
+        .thenEach(
+            (result, test) => {
+                result(test);
+            },
+            [ // eslint-disable-line indent
+                {
+                    step: 0,
+                    results: {
+                        'should do stuff': {
+                            result: 'pass',
+                        },
+                    },
+                },
+            ], // eslint-disable-line indent
+        )
     );
 });
