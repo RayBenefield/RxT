@@ -20,4 +20,12 @@ describe('RxT', (it) => {
             { 'should fail to assert the proper hello': 'fail' },
         ]))
     );
+
+    it('should skip a single test marked with \'skip\'', test => test
+        .given('skip-one')
+        .whenObserving(runTest)
+        .then(shouldHaveSteps([
+            { 'should fail to assert the proper hello': 'fail' },
+        ]))
+    );
 });

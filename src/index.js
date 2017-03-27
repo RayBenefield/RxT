@@ -21,6 +21,7 @@ export const specStream = (specDescription, specCreator) => {
 
         it(...args, true);
     };
+    it.skip = () => {};
     specCreator(it);
 
     return Observable.merge(...examples)
