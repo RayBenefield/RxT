@@ -80,11 +80,10 @@ class ExampleObservable extends Observable {
     }
 
     whenObserving(doSomething) {
-        return this.mergeMap(ex => Observable
-            .merge(
-                Observable.of(ex)
+        return this.mergeMap(ex => Observable.merge(
+            Observable.of(ex)
                 .map(e => _.extend(e, { result: 'wait' })),
-                doSomething(ex.given)
+            doSomething(ex.given)
                 .map(actual => _.extend(ex, { actual }))
                 .map(e => _.extend(e, { result: 'done' }))
                 .scan((prev, curr) => _
@@ -92,7 +91,7 @@ class ExampleObservable extends Observable {
                         whenId: prev.whenId !== undefined ? prev.whenId + 1 : 0,
                     }), {}
                 ),
-            ));
+        ));
     }
 
     then(check) {
