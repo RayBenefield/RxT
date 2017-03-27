@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+import 'should';
 import _ from 'lodash';
 
 export const accumulateSteps = timeline => timeline.reduce((past, current) => {
@@ -6,9 +8,12 @@ export const accumulateSteps = timeline => timeline.reduce((past, current) => {
 }, []);
 
 export default expected => (result) => {
+    const stepNumber = result.step;
     const steps = accumulateSteps(expected);
-    result.results.should.have.keys(..._.keys(steps[result.step]));
-    _.forIn(steps[result.step], (val, key) => {
-        result.results[key].result.should.equal(val);
+    const results = result.results;
+
+    results.should.have.keys(..._.keys(steps[stepNumber]));
+    _.forIn(steps[stepNumber], (val, key) => {
+        results[key].result.should.equal(val);
     });
 };
