@@ -12,4 +12,12 @@ describe('RxT', (it) => {
             { 'should fail to assert the proper hello': 'fail' },
         ]))
     );
+
+    it('should run a single test marked with \'only\'', test => test
+        .given('runJustOneTest')
+        .whenObserving(runTest)
+        .then(shouldHaveSteps([
+            { 'should fail to assert the proper hello': 'fail' },
+        ]))
+    );
 });

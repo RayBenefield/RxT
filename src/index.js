@@ -7,10 +7,21 @@ import createExample from './example-observable';
 _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
 export const specStream = (specDescription, specCreator) => {
     const examples = [];
-    specCreator((description, specification) => {
+    let onlyGlobal;
+    const it = (description, specification, only = false) => {
+        if (onlyGlobal && !only) return;
         const example = specification(createExample(description));
         examples.push(example);
-    });
+    };
+    it.only = (...args) => {
+        if (!onlyGlobal) {
+            examples.length = 0;
+            onlyGlobal = true;
+        }
+
+        it(...args, true);
+    };
+    specCreator(it);
 
     return Observable.merge(...examples)
         .scan((all, current) => ({
