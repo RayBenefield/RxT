@@ -118,4 +118,24 @@ describe('Step Checker', (it) => {
             ], // eslint-disable-line indent
         )
     );
+
+    it('should fail a single step', ex => ex
+        .given([{ 'should do stuff': 'pass' }])
+        .when(checkSteps)
+        .thenEach(
+            (result, test) => {
+                (() => result(test)).should.throw('expected \'fail\' to be \'pass\'');
+            },
+            [ // eslint-disable-line indent
+                {
+                    step: 0,
+                    results: {
+                        'should do stuff': {
+                            result: 'fail',
+                        },
+                    },
+                },
+            ], // eslint-disable-line indent
+        )
+    );
 });
