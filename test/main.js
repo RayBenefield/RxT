@@ -5,7 +5,7 @@ import shouldHaveSteps from '../utils/step-checker';
 
 describe('RxT', (it) => {
     it('should run a simple passing and failing given/when/then test', test => test
-        .given('givenWhenThen')
+        .given('given-when-then')
         .whenObserving(runTest)
         .then(shouldHaveSteps([
             { 'should capitalize just hello': 'pass' },
@@ -14,7 +14,7 @@ describe('RxT', (it) => {
     );
 
     it('should run a single test marked with \'only\'', test => test
-        .given('runJustOneTest')
+        .given('run-just-one')
         .whenObserving(runTest)
         .then(shouldHaveSteps([
             { 'should fail to assert the proper hello': 'fail' },
