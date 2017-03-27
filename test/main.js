@@ -1,20 +1,12 @@
 /* eslint-disable no-console, no-duplicate-imports, import/no-duplicates */
 import _ from 'lodash';
-import proxyquire from 'proxyquire';
 import describe from '../src';
-import { specStream } from '../src';
+import runTest from './utils/run-test';
 
 describe('RxT', (it) => {
     it('should run a simple passing and failing given/when/then test', test => test
         .given('givenWhenThen')
-        .whenObserving((testFile) => {
-            const spec = proxyquire(`./samples/${testFile}`, {
-                '../../src': {
-                    default: specStream,
-                },
-            });
-            return spec;
-        })
+        .whenObserving(runTest)
         .then(
             (result) => {
                 const expected = [
