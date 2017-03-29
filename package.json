@@ -1,7 +1,7 @@
 {
     "name": "rxt",
     "description": "A declarative testing framework.",
-    "version": "0.1.1",
+    "version": "0.2.0",
     "homepage": "https://github.com/RayBenefield/rxt",
     "author": {
         "name": "Raymond Benefield",
