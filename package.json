@@ -27,7 +27,7 @@
         "lint": "eslint -c .eslintrc.json src/",
         "build": "yarn run clean && babel src -d dist/src && cp package.json readme.md dist",
         "clean": "rimraf dist",
-        "publish": "yarn run minor && yarn run build && npm publish dist",
+        "prepublish": "yarn run minor && yarn run build",
         "unpublish": "npm unpublish rxt@$(git tag -l | tail -n1) && git tag -d $(git tag -l | tail -n1)",
         "patch": "npm version patch -m 'v%s' && js-beautify -r package.json && git commit -a --amend --no-edit",
         "minor": "npm version minor -m 'v%s' && js-beautify -r package.json && git commit -a --amend --no-edit",
