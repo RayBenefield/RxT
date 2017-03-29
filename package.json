@@ -1,77 +1,77 @@
 {
-    "name": "rxt",
-    "description": "A declarative testing framework.",
-    "version": "0.0.3",
-    "homepage": "https://github.com/RayBenefield/rxt",
-    "author": {
-        "name": "Raymond Benefield",
-        "email": "raymond.benefield@wellsfargo.com"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/RayBenefield/rxt.git"
-    },
-    "bugs": {
-        "url": "https://github.com/RayBenefield/rxt/issues"
-    },
-    "license": "MIT",
-    "main": "src/index.js",
-    "engines": {
-        "node": ">= 0.10.26",
-        "npm": ">=1.4.3"
-    },
-    "scripts": {
-        "dev": "nodemon test/index.test.js --exec babel-node",
-        "dev:tap": "babel-node src/index.test.js | tap-spec",
-        "test": "jest --watch",
-        "lint": "eslint -c .eslintrc.json src/",
-        "build": "babel src -d dist",
-        "clean": "rimraf dist",
-        "patch": "npm version patch -m 'v%s' && js-beautify -r package.json && git commit -a --amend --no-edit",
-        "minor": "npm version minor -m 'v%s' && js-beautify -r package.json && git commit -a --amend --no-edit",
-        "major": "npm version major -m 'v%s' && js-beautify -r package.json && git commit -a --amend --no-edit"
-    },
-    "dependencies": {
-        "chalk": "^1.1.3",
-        "clivas": "^0.2.0",
-        "config": "^1.21.0",
-        "cross-env": "^3.1.3",
-        "lodash": "^4.17.4",
-        "proxyquire": "^1.7.11",
-        "rxjs": "^5.2.0"
-    },
-    "devDependencies": {
-        "babel-cli": "^6.18.0",
-        "babel-jest": "^17.0.2",
-        "babel-polyfill": "^6.16.0",
-        "babel-preset-es2015": "^6.18.0",
-        "eslint": "^3.2.2",
-        "eslint-config-airbnb": "^12.0.0",
-        "eslint-plugin-import": "^1.16.0",
-        "eslint-plugin-jsx-a11y": "^2.2.3",
-        "eslint-plugin-react": "^6.3.0",
-        "gulp": "^3.9.1",
-        "gulp-cached": "^1.1.0",
-        "gulp-debug": "^2.1.2",
-        "gulp-if": "^2.0.1",
-        "gulp-notify": "^2.2.0",
-        "gulp-plumber": "^1.1.0",
-        "gulp-shell": "^0.5.2",
-        "jest": "^17.0.3",
-        "js-beautify": "^1.6.4",
-        "nodemon": "^1.11.0",
-        "rimraf": "^2.5.4",
-        "should": "^11.2.1",
-        "tap-spec": "^4.1.1"
-    },
-    "babel": {
-        "presets": [
-            "es2015"
-        ]
-    },
-    "jest": {
-        "notify": true,
-        "rootDir": "src",
-        "testEnvironment": "node"
-    }
+  "name": "rxt",
+  "description": "A declarative testing framework.",
+  "version": "0.0.4",
+  "homepage": "https://github.com/RayBenefield/rxt",
+  "author": {
+    "name": "Raymond Benefield",
+    "email": "raymond.benefield@wellsfargo.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/RayBenefield/rxt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/RayBenefield/rxt/issues"
+  },
+  "license": "MIT",
+  "main": "src/index.js",
+  "engines": {
+    "node": ">= 0.10.26",
+    "npm": ">=1.4.3"
+  },
+  "scripts": {
+    "dev": "nodemon test/index.test.js --exec babel-node",
+    "dev:tap": "babel-node src/index.test.js | tap-spec",
+    "test": "jest --watch",
+    "lint": "eslint -c .eslintrc.json src/",
+    "build": "babel src -d dist",
+    "clean": "rimraf dist",
+    "patch": "npm version patch -m 'v%s' && js-beautify -r package.json && git commit -a --amend --no-edit",
+    "minor": "npm version minor -m 'v%s' && js-beautify -r package.json && git commit -a --amend --no-edit",
+    "major": "npm version major -m 'v%s' && js-beautify -r package.json && git commit -a --amend --no-edit"
+  },
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "clivas": "^0.2.0",
+    "config": "^1.21.0",
+    "cross-env": "^3.1.3",
+    "lodash": "^4.17.4",
+    "proxyquire": "^1.7.11",
+    "rxjs": "^5.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-jest": "^17.0.2",
+    "babel-polyfill": "^6.16.0",
+    "babel-preset-es2015": "^6.18.0",
+    "eslint": "^3.2.2",
+    "eslint-config-airbnb": "^12.0.0",
+    "eslint-plugin-import": "^1.16.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.3.0",
+    "gulp": "^3.9.1",
+    "gulp-cached": "^1.1.0",
+    "gulp-debug": "^2.1.2",
+    "gulp-if": "^2.0.1",
+    "gulp-notify": "^2.2.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-shell": "^0.5.2",
+    "jest": "^17.0.3",
+    "js-beautify": "^1.6.4",
+    "nodemon": "^1.11.0",
+    "rimraf": "^2.5.4",
+    "should": "^11.2.1",
+    "tap-spec": "^4.1.1"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
+  "jest": {
+    "notify": true,
+    "rootDir": "src",
+    "testEnvironment": "node"
+  }
 }
