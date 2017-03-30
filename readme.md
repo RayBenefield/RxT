@@ -25,9 +25,9 @@ any `Observable` from [`RxJS`](http://reactivex.io/rxjs/).
 
 ```js
 /* ES2015 */
-import 'should';                                      // Assertion Library
-import describe from 'rxt';                           // RxT
-import capitalize from 'lodash/capitalize';           // Function under test
+import 'should';                              // Assertion Library
+import describe from 'rxt';                   // RxT
+import capitalize from 'lodash/capitalize';   // Function under test
 
 // Setup the test suite
 describe('My Code Under Test', (it) => {
@@ -35,13 +35,13 @@ describe('My Code Under Test', (it) => {
     // Individual test
     it('should capitalize hello', example => example
         .given(
-            'hello'                                   // Parameter passed to function under test
+            'hello'                           // Parameter for function
         )
         .when(value =>
-            capitalize(value)                         // Function under test
+            capitalize(value)                 // Function under test
         )
         .then(result =>
-            result.should.be.exactly('Hello')         // Assertions of result
+            result.should.be.exactly('Hello') // Assertion of result
         )
     );
 
