@@ -1,6 +1,18 @@
 # RxT
 
-A declarative testing framework.
+`RxT` stands for ReactiveX Testing. `RxT` is built as a declarative testing
+framework inspired by the potential for utilizing custom operators for
+[`RxJS`](http://reactivex) `Observables` to create a Domain Specific Language
+(`DSL`) for powerful, but readable testing. The DSL is modeled off of Behaviour
+Driven Development (`BDD`) terminology to drive feature development.
+
+The power of `Observables` enables `RxT` to turn tests into powerful declarative
+streams that are capable of handling a multitude of testing parameters for
+variation in a single test as well as being able to test the results of
+asynchronous side effects without messy nested callbacks. This results in the
+ability of `RxT` to handle many variations on asynchronous tasks in parallel
+which is useful when you want to do something like calling an API with a variety
+of parameters and validate the results.
 
 
 ## Install
