@@ -3,6 +3,8 @@ import { Observable } from 'rxjs';
 import { of } from 'rxjs/observable/of';
 import { from } from 'rxjs/observable/from';
 
+const isObservable = obj => obj instanceof Observable;
+
 const attachId = function attachId() {
     return this.pairwise()
         .mergeMap(([previous, current]) => {
@@ -70,28 +72,30 @@ class ExampleObservable extends Observable {
     }
 
     when(doSomething) {
-        return this
-            .extend(ex => ({ actual: doSomething(ex.given) }))
-            .scan((prev, curr) => _
-                .extend(curr, {
-                    whenId: prev.whenId !== undefined ? prev.whenId + 1 : 0,
-                }), {}
-            );
-    }
-
-    whenObserving(doSomething) {
-        return this.mergeMap(ex => Observable.merge(
-            Observable.of(ex)
-                .map(e => _.extend(e, { result: 'wait' })),
-            doSomething(ex.given)
-                .map(actual => _.extend(ex, { actual }))
-                .map(e => _.extend(e, { result: 'done' }))
+        return this.mergeMap((ex) => {
+            let something;
+            something = doSomething(ex.given);
+            if (isObservable(something)) {
+                something = Observable.merge(
+                    Observable.of(ex)
+                        .map(e => _.extend(e, { result: 'wait' })),
+                    something
+                        .map(actual => _.extend(ex, { actual }))
+                        .map(e => _.extend(e, { result: 'done' })),
+                );
+            }
+            if (!isObservable(something)) {
+                something = Observable.of(something)
+                    .map(actual => _.extend(ex, { actual }))
+                    .map(e => _.extend(e, { result: 'done' }));
+            }
+            return something
                 .scan((prev, curr) => _
                     .extend(curr, {
                         whenId: prev.whenId !== undefined ? prev.whenId + 1 : 0,
                     }), {}
-                ),
-        ));
+                );
+        });
     }
 
     then(check) {

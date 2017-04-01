@@ -6,7 +6,7 @@ import shouldHaveSteps from '../utils/step-checker';
 describe('RxT', (it) => {
     it('should run a simple passing and failing given/when/then test', test => test
         .given('given-when-then')
-        .whenObserving(runTest)
+        .when(runTest)
         .then(shouldHaveSteps([
             { 'should capitalize just hello': 'pass' },
             { 'should fail to assert the proper hello': 'fail' },
@@ -15,7 +15,7 @@ describe('RxT', (it) => {
 
     it('should run a single test marked with \'only\'', test => test
         .given('run-just-one')
-        .whenObserving(runTest)
+        .when(runTest)
         .then(shouldHaveSteps([
             { 'should fail to assert the proper hello': 'fail' },
         ]))
@@ -23,9 +23,26 @@ describe('RxT', (it) => {
 
     it('should skip a single test marked with \'skip\'', test => test
         .given('skip-one')
-        .whenObserving(runTest)
+        .when(runTest)
         .then(shouldHaveSteps([
             { 'should fail to assert the proper hello': 'fail' },
+        ]))
+    );
+
+    it('should support functions that return observables with when', test => test
+        .given('givenEach-when-then')
+        .when(runTest)
+        .then(shouldHaveSteps([
+            { 'should keep the length of the word "hello" equal to "5"': 'wait' },
+            { 'should keep the length of the word "stuff" equal to "5"': 'wait' },
+            { 'should keep the length of the word "style" equal to "5"': 'wait' },
+            { 'should keep the length of the word "world" equal to "5"': 'wait' },
+            { 'should keep the length of the word "again" equal to "5"': 'wait' },
+            { 'should keep the length of the word "hello" equal to "5"': 'pass' },
+            { 'should keep the length of the word "stuff" equal to "5"': 'pass' },
+            { 'should keep the length of the word "style" equal to "5"': 'pass' },
+            { 'should keep the length of the word "world" equal to "5"': 'pass' },
+            { 'should keep the length of the word "again" equal to "5"': 'pass' },
         ]))
     );
 });

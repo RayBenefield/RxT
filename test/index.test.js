@@ -44,13 +44,13 @@ describe('Testing', (it) => {
 
     it('should capitalize a single {{given}} with an observable', ex => ex
         .given('hello')
-        .whenObserving(observableCapitalized)
+        .when(observableCapitalized)
         .then(result => result.should.be.exactly('Hello'))
     );
 
     it('should fail to capitalize a single {{given}} with an observable', ex => ex
         .given('hello')
-        .whenObserving(observableCapitalized)
+        .when(observableCapitalized)
         .then(result => result.should.be.exactly('hello'))
     );
 
@@ -58,7 +58,7 @@ describe('Testing', (it) => {
         .givenEach(
             ['hello', 'world', 'again', 'stuff', 'style']
         )
-        .whenObserving(observableCapitalized)
+        .when(observableCapitalized)
         .thenEach(
             (result, expected) => {
                 result.length.should.be.exactly(5);
@@ -72,7 +72,7 @@ describe('Testing', (it) => {
         .givenEach(
             ['hello', 'world']
         )
-        .whenObserving(observableCapitalized)
+        .when(observableCapitalized)
         .thenEach(
             (result, expected) => {
                 result.length.should.be.exactly(5);
