@@ -1,7 +1,7 @@
 import proxyquire from 'proxyquire';
 import { specStream } from '../src';
 
-export default module.exports = (testFile) => {
+export const runTestWithSteps = (testFile) => {
     const spec = proxyquire(`../test/samples/${testFile}`, {
         '../../src': {
             default: specStream,
@@ -9,3 +9,5 @@ export default module.exports = (testFile) => {
     });
     return spec;
 };
+
+export const runTestWithResults = testFile => runTestWithSteps(testFile).last();
