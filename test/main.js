@@ -45,4 +45,21 @@ describe('RxT', (it) => {
             { 'should keep the length of the word "again" equal to "5"': 'pass' },
         ]))
     );
+
+    it('should fail a test but continue with the rest', test => test
+        .given('givenEach-fail-but-continue')
+        .when(runTest)
+        .then(shouldHaveSteps([
+            { 'should fail if length of "hello" is not equal to "5"': 'wait' },
+            { 'should fail if length of "stuff" is not equal to "5"': 'wait' },
+            { 'should fail if length of "at" is not equal to "5"': 'wait' },
+            { 'should fail if length of "world" is not equal to "5"': 'wait' },
+            { 'should fail if length of "again" is not equal to "5"': 'wait' },
+            { 'should fail if length of "hello" is not equal to "5"': 'pass' },
+            { 'should fail if length of "stuff" is not equal to "5"': 'pass' },
+            { 'should fail if length of "at" is not equal to "5"': 'fail' },
+            { 'should fail if length of "world" is not equal to "5"': 'pass' },
+            { 'should fail if length of "again" is not equal to "5"': 'pass' },
+        ]))
+    );
 });
